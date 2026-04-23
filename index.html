@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Abdalrahman Zowied | Portfolio</title>
+    <meta name="description"
+        content="Portfolio of Abdalrahman Zowied, a Computer Engineering student building elegant interfaces and intelligent systems.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="noise-overlay" aria-hidden="true"></div>
+    <div class="background-orb orb-one" aria-hidden="true"></div>
+    <div class="background-orb orb-two" aria-hidden="true"></div>
+    <div class="background-grid" aria-hidden="true"></div>
+    <div id="ripple-circle" aria-hidden="true"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <header class="topbar">
+        <a class="brand" href="#home">AZ</a>
+        <nav class="nav">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="topbar-actions">
+            <a class="btn btn-ghost" href="#projects">Explore Work</a>
+            <label class="theme-switch" for="theme-toggle" aria-label="Toggle theme">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider">
+                    <span class="icon">Light</span>
+                    <span class="icon">Dark</span>
+                </span>
+            </label>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero reveal" id="home">
+            <div class="hero-copy glass">
+                <span class="eyebrow">Computer Engineering x Product Thinking</span>
+                <h1>Designing polished digital experiences with logic, speed, and personality.</h1>
+                <p class="hero-text">
+                    I am Abdalrahman Zowied, a BUC Computer Engineering student focused on modern web interfaces,
+                    strong problem solving, and building products that feel premium the first second you see them.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary magnetic" href="#contact">Start a Project</a>
+                    <a class="btn btn-secondary" href="#projects">See Featured Work</a>
+                </div>
+                <div class="hero-stats">
+                    <article class="stat-card tilt-card">
+                        <strong>02+</strong>
+                        <span>Years exploring code, UI, and systems thinking</span>
+                    </article>
+                    <article class="stat-card tilt-card">
+                        <strong>05</strong>
+                        <span>Core technical strengths from C++ to frontend craft</span>
+                    </article>
+                    <article class="stat-card tilt-card">
+                        <strong>100%</strong>
+                        <span>Focus on elegant details, motion, and user impact</span>
+                    </article>
+                </div>
+            </div>
+
+            <div class="hero-visual glass reveal">
+                <div class="visual-badge">Available for internships and collaborations</div>
+                <div class="visual-ring">
+                    <div class="visual-core">
+                        <span>AZ</span>
+                    </div>
+                </div>
+                <div class="floating-card card-a">
+                    <span>Frontend Precision</span>
+                    <strong>Smooth motion and premium interaction design</strong>
+                </div>
+                <div class="floating-card card-b">
+                    <span>Engineering Mindset</span>
+                    <strong>Structured thinking, clean logic, better systems</strong>
+                </div>
+            </div>
+        </section>
+
+        <section class="section about reveal" id="about">
+            <div class="section-heading">
+                <span class="eyebrow">About Me</span>
+                <h2>Creative visuals backed by engineering discipline.</h2>
+            </div>
+            <div class="about-grid">
+                <article class="glass feature-card tilt-card">
+                    <h3>Technical Depth</h3>
+                    <p>I enjoy translating algorithms, data structures, and C++ logic into products that feel intuitive
+                        and
+                        refined.</p>
+                </article>
+                <article class="glass feature-card tilt-card">
+                    <h3>Visual Taste</h3>
+                    <p>I care about spacing, typography, animation timing, and the emotional impact of interfaces.</p>
+                </article>
+                <article class="glass feature-card tilt-card">
+                    <h3>Growth Mindset</h3>
+                    <p>I am building toward high-end product engineering by combining clean code, usability, and bold
+                        presentation.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section reveal" id="skills">
+            <div class="section-heading center">
+                <span class="eyebrow">Technical Arsenal</span>
+                <h2>Core strengths that shape how I build.</h2>
+            </div>
+            <div class="skills-grid">
+                <article class="skill-panel glass tilt-card">
+                    <span class="skill-index">01</span>
+                    <h3>C++ and OOP</h3>
+                    <p>Problem decomposition, logic modeling, and writing code with structure.</p>
+                </article>
+                <article class="skill-panel glass tilt-card">
+                    <span class="skill-index">02</span>
+                    <h3>Data Structures</h3>
+                    <p>Choosing efficient patterns and understanding what happens behind the scenes.</p>
+                </article>
+                <article class="skill-panel glass tilt-card">
+                    <span class="skill-index">03</span>
+                    <h3>JavaScript</h3>
+                    <p>Interactive interfaces, animation, and responsive user experiences.</p>
+                </article>
+                <article class="skill-panel glass tilt-card">
+                    <span class="skill-index">04</span>
+                    <h3>HTML and CSS</h3>
+                    <p>Clean structure, modern layout systems, and premium visual direction.</p>
+                </article>
+                <article class="skill-panel glass tilt-card">
+                    <span class="skill-index">05</span>
+                    <h3>Problem Solving</h3>
+                    <p>Balancing aesthetics, performance, and logic to ship stronger results.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section projects reveal" id="projects">
+            <div class="section-heading">
+                <span class="eyebrow">Featured Projects</span>
+                <h2>Selected work with a polished presentation layer.</h2>
+            </div>
+            <div class="project-grid">
+                <article class="project-card glass tilt-card">
+                    <div class="project-glow"></div>
+                    <span class="project-tag">C++ and Visualization</span>
+                    <h3>Data Structures Visualizer</h3>
+                    <p>Interactive visual explanations for core algorithms, memory flow, and abstract structures.</p>
+                    <div class="project-meta">
+                        <span>Clarity</span>
+                        <span>Learning UX</span>
+                        <span>System Thinking</span>
+                    </div>
+                    <a class="btn btn-primary" href="#contact">View Code</a>
+                </article>
+                <article class="project-card glass tilt-card">
+                    <div class="project-glow"></div>
+                    <span class="project-tag">Premium Frontend</span>
+                    <h3>Immersive Portfolio UI</h3>
+                    <p>A highly visual personal brand page with layered gradients, scroll reveals, and refined
+                        micro-interactions.</p>
+                    <div class="project-meta">
+                        <span>Visual Identity</span>
+                        <span>Motion Design</span>
+                        <span>Responsive UI</span>
+                    </div>
+                    <a class="btn btn-primary" href="#contact">Live Demo</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="section contact-section reveal" id="contact">
+            <div class="contact-panel glass">
+                <div class="section-heading">
+                    <span class="eyebrow">Let&apos;s Connect</span>
+                    <h2>Have an idea, internship, or collaboration in mind?</h2>
+                    <p>I am always open to meaningful projects where engineering and design meet.</p>
+                </div>
+                <form id="contact-form">
+                    <div class="input-container">
+                        <input type="text" id="name" name="name" placeholder=" " required>
+                        <label for="name">Your Name</label>
+                    </div>
+                    <div class="input-container">
+                        <input type="email" id="email" name="email" placeholder=" " required>
+                        <label for="email">Email Address</label>
+                    </div>
+                    <div class="input-container">
+                        <textarea id="message" name="message" placeholder=" " required></textarea>
+                        <label for="message">Tell me about your project</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit magnetic">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
