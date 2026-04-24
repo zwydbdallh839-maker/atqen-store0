@@ -162,6 +162,11 @@ const products = [
 ];
 
 const whatsappNumber = "201006629472";
+const defaultSize = "M";
+const sizeByCategory = {
+    "T-shirts": ["S", "M", "L", "XL", "XXL"],
+    "Hoodies": ["M", "L", "XL", "XXL"]
+};
 const shippingRules = {
     cairo: ["Cairo", "Giza", "Qalyubia"],
     delta: ["Alexandria", "Beheira", "Dakahlia", "Damietta", "Gharbia", "Kafr El Sheikh", "Monufia", "Sharqia", "Port Said", "Ismailia", "Suez"]
@@ -383,6 +388,27 @@ function renderProducts() {
         desc.className = "product-copy";
         desc.textContent = currentProductDescription(product);
 
+        const sizeWrap = document.createElement("label");
+        sizeWrap.className = "size-field";
+
+        const sizeCaption = document.createElement("span");
+        sizeCaption.textContent = state.lang === "ar" ? "المقاس" : "Size";
+
+        const sizeSelect = document.createElement("select");
+        sizeSelect.className = "size-select";
+        sizeSelect.setAttribute("aria-label", state.lang === "ar" ? "اختيار المقاس" : "Choose size");
+
+        getAvailableSizes(product).forEach((size) => {
+            const option = document.createElement("option");
+            option.value = size;
+            option.textContent = size;
+            option.selected = size === getDefaultSize(product);
+            sizeSelect.appendChild(option);
+        });
+
+        sizeWrap.appendChild(sizeCaption);
+        sizeWrap.appendChild(sizeSelect);
+
         const bottom = document.createElement("div");
         bottom.className = "product-bottom";
 
@@ -394,7 +420,7 @@ function renderProducts() {
         addBtn.className = "add-btn";
         addBtn.type = "button";
         addBtn.textContent = text[state.lang].add;
-        addBtn.addEventListener("click", () => addToCart(product.id));
+        addBtn.addEventListener("click", () => addToCart(product.id, sizeSelect.value));
 
         top.appendChild(category);
         bottom.appendChild(price);
@@ -402,6 +428,7 @@ function renderProducts() {
         body.appendChild(top);
         body.appendChild(title);
         body.appendChild(desc);
+        body.appendChild(sizeWrap);
         body.appendChild(bottom);
         card.appendChild(imageWrap);
         card.appendChild(body);
@@ -446,6 +473,15 @@ function currentProductDescription(product) {
     return state.lang === "ar" ? product.descAr : product.descEn;
 }
 
+function getAvailableSizes(product) {
+    return sizeByCategory[product.category] || ["S", "M", "L", "XL"];
+}
+
+function getDefaultSize(product) {
+    const sizes = getAvailableSizes(product);
+    return sizes.includes(defaultSize) ? defaultSize : sizes[0];
+}
+
 function filterProducts(category, event) {
     state.filter = category;
 
@@ -456,31 +492,32 @@ function filterProducts(category, event) {
     renderProducts();
 }
 
-function addToCart(id) {
+function addToCart(id, selectedSize) {
     const product = products.find((item) => item.id === id);
     if (!product) {
         return;
     }
 
-    const existing = state.cart.find((item) => item.id === id);
+    const size = selectedSize || getDefaultSize(product);
+    const existing = state.cart.find((item) => item.id === id && item.size === size);
     if (existing) {
         existing.qty += 1;
     } else {
-        state.cart.push({ ...product, qty: 1 });
+        state.cart.push({ ...product, qty: 1, size });
     }
 
     saveCart();
     updateCart();
 }
 
-function removeFromCart(id) {
-    state.cart = state.cart.filter((item) => item.id !== id);
+function removeFromCart(id, size) {
+    state.cart = state.cart.filter((item) => !(item.id === id && item.size === size));
     saveCart();
     updateCart();
 }
 
-function changeQty(id, delta) {
-    const item = state.cart.find((entry) => entry.id === id);
+function changeQty(id, size, delta) {
+    const item = state.cart.find((entry) => entry.id === id && entry.size === size);
     if (!item) {
         return;
     }
@@ -534,6 +571,10 @@ function updateCart() {
         const price = document.createElement("p");
         price.textContent = `${item.price} EGP`;
 
+        const size = document.createElement("p");
+        size.className = "cart-item-size";
+        size.textContent = `${state.lang === "ar" ? "المقاس" : "Size"}: ${item.size || defaultSize}`;
+
         const controls = document.createElement("div");
         controls.className = "qty-controls";
 
@@ -541,7 +582,7 @@ function updateCart() {
         minus.className = "qty-btn";
         minus.type = "button";
         minus.textContent = "-";
-        minus.addEventListener("click", () => changeQty(item.id, -1));
+        minus.addEventListener("click", () => changeQty(item.id, item.size, -1));
 
         const qty = document.createElement("span");
         qty.textContent = item.qty;
@@ -550,19 +591,20 @@ function updateCart() {
         plus.className = "qty-btn";
         plus.type = "button";
         plus.textContent = "+";
-        plus.addEventListener("click", () => changeQty(item.id, 1));
+        plus.addEventListener("click", () => changeQty(item.id, item.size, 1));
 
         const remove = document.createElement("button");
         remove.className = "button-link";
         remove.type = "button";
         remove.textContent = text[state.lang].remove;
-        remove.addEventListener("click", () => removeFromCart(item.id));
+        remove.addEventListener("click", () => removeFromCart(item.id, item.size));
 
         controls.appendChild(minus);
         controls.appendChild(qty);
         controls.appendChild(plus);
         meta.appendChild(name);
         meta.appendChild(price);
+        meta.appendChild(size);
         meta.appendChild(controls);
         meta.appendChild(remove);
         row.appendChild(img);
@@ -743,7 +785,7 @@ function buildWhatsAppMessage() {
     const subtotal = state.cart.reduce((sum, item) => sum + (Number(item.price) * Number(item.qty)), 0);
     const total = subtotal + state.shipping;
     const items = state.cart
-        .map((item) => `- ${currentCartName(item)} x${item.qty} = ${item.price * item.qty} EGP`)
+        .map((item) => `- ${currentCartName(item)} (${item.size || defaultSize}) x${item.qty} = ${item.price * item.qty} EGP`)
         .join("\n");
 
     const name = valueOf("checkout-name");
@@ -794,7 +836,7 @@ function buildWhatsAppMessage() {
 function openWhatsAppOrder() {
     const message = buildWhatsAppMessage();
     const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    window.location.href = url;
 }
 
 function placeOrder() {
@@ -814,11 +856,7 @@ function placeOrder() {
     try {
         const message = buildWhatsAppMessage();
         const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-        const popup = window.open(url, "_blank", "noopener,noreferrer");
-
-        if (!popup) {
-            window.location.href = url;
-        }
+        window.location.href = url;
 
         showCheckoutMessage(text[state.lang].orderReady, false);
         state.cart = [];
